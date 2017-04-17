@@ -1,10 +1,83 @@
-package grupni_projekat_prvi_dio;
-
+package hotelMenagment;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Guest {
+ /**
+  * @author Sipo
+  */
+	private String username;
+	private String password;
+	private String name;
+	private String surname;
+	private String gender;
+	private String IDnumber;
+	private int age;
+	private int roomNumber;
+	private String roomType;
+	private String timeCheckedin;
+	private int numofdays;
+	private String gym;
+	private String pool;
+	private String restaurant;
+	private String sauna;
+	private String cinema;
 
+	
+	private boolean status;
+
+	// constructor to return list of active users
+	public Guest(String username, String name, String surname, String gender, String idnumber, int age, int roomnumber,
+			String roomtype) {
+		this.username = username;
+		this.name = name;
+		this.surname = surname;
+		this.gender = gender;
+		this.IDnumber = idnumber;
+		this.age = age;
+		this.roomNumber = roomnumber;
+		this.roomType = roomtype;
+
+	}
+
+	// constructor to change status of user in databse
+	public Guest(String username, boolean status) {
+		this.username = username;
+		this.status = status;
+	}
+
+	/** return boolean status */
+	public boolean getStatus() {
+		return status;
+	}
+
+	/** sets status tp true or false */
+	public void setActive(boolean status) {
+		this.status = status;
+	}
+
+	// no-arg construcator
+	public Guest() {
+	}
+
+	public Guest(String username, String password) {
+		this.username = username;
+		this.password = password;
+	}
+
+	public Guest(String gym, String pool, String restaurant, String sauna, String cinema) {
+		this.gym = gym;
+		this.pool = pool;
+		this.restaurant = restaurant;
+		this.sauna = sauna;
+		this.cinema = cinema;
+	}
+
+	public Guest(String IDnumber) {
+		this.IDnumber = IDnumber;
+	}
+	//Vojo nastavi ;)
+	
 	static Scanner input = new Scanner(System.in);
 
 	/**Jasmina*/
