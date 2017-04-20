@@ -48,7 +48,7 @@ public class Guest {
 		this.age = age;
 		this.roomNumber = roomnumber;
 		this.roomType = roomtype;
-		this.timeCheckedin = new java.util.Date() + "";
+		this.timeCheckedin = new Date() + "";
 		this.balance = 0;
 		this.isCheckedIn = true;
 
@@ -64,11 +64,11 @@ public class Guest {
 
 	}
 
-	/** Constructor for loading from database */
 	public Guest(String name, String surname, String gender, String idnumber, int age, int roomnumber, String roomtype,
 			String time_check, String username, int password, double balance, int numDay, int gym, int pool,
 			int restourant, int sauna, int cinema, boolean isCheckedIn) {
 
+		// Constructor for loading from database
 		this.username = username;
 		this.name = name;
 		this.surname = surname;
@@ -88,6 +88,13 @@ public class Guest {
 		this.timesSaunaUsed = sauna;
 		this.isCheckedIn = isCheckedIn;
 
+	}
+
+	/**
+	 * @ author vojo @ param isCheckedIn
+	 */
+	public void setCheckedIn(boolean isCheckedIn) {
+		this.isCheckedIn = isCheckedIn;
 	}
 
 	public String getName() {
@@ -154,6 +161,10 @@ public class Guest {
 		this.balance = balance;
 	}
 
+	public void addBalance(double balance) {
+		this.balance += balance;
+	}
+
 	public int getNumOfDays() {
 		return numOfDays;
 	}
@@ -214,13 +225,6 @@ public class Guest {
 		return password;
 	}
 
-	/**
-	 * @ author vojo @ param isCheckedIn
-	 */
-	public void setCheckedIn(boolean isCheckedIn) {
-		this.isCheckedIn = isCheckedIn;
-	}
-
 	public int isCheckedIn() {
 		if (isCheckedIn)
 			return 1;
@@ -228,7 +232,7 @@ public class Guest {
 			return 0;
 	}
 
-	// constructor to change status of user in database
+	/** constructor to change status of user in database */
 	public Guest(String username, boolean status) {
 		this.username = username;
 		this.isCheckedIn = status;
@@ -244,11 +248,10 @@ public class Guest {
 		this.isCheckedIn = status;
 	}
 
-	// no-arg construcator
+	/** no-arg construcator */
 	public Guest() {
 	}
 
-	// Constructor for guest as user
 	public Guest(String username, int password) {
 		this.username = username;
 		this.password = password;
@@ -310,14 +313,15 @@ public class Guest {
 
 		System.out.println("Your balans for : " + getNumOfDays() + " days is: " + formatedPrice + getBalance());
 
-		if ((getTimesGymUsed()+getTimesPoolUsed()+getTimesRestaurantUsed()+getTimesSaunaUsed()+getTimesCinemaUsed())>0){
+		if ((getTimesGymUsed() + getTimesPoolUsed() + getTimesRestaurantUsed() + getTimesSaunaUsed()
+				+ getTimesCinemaUsed()) > 0) {
 			System.out.println("Services you are using :");
 		}
 		if (getTimesGymUsed() > 0) {
 			System.out.println("Gym - 10 KM per day.");
 		}
 		if (getTimesPoolUsed() > 0) {
-			System.out.println("Pool -10 KM per day.");
+			System.out.println("Pool - 10 KM per day.");
 		}
 		if (getTimesRestaurantUsed() > 0) {
 			System.out.println("Restaurant - 20 KM per day. ");
@@ -346,26 +350,33 @@ public class Guest {
 
 		int user = unosInt(input);
 
-		/** add 1 to the current value of the chosen service */
+		/** add 1 to the current value of the chosen service
+		 * add cost of the service to the balance 
+		 * */
 		switch (user) {
 		case 1:
 			setTimesSaunaUsed(getTimesSaunaUsed() + 1);
+			addBalance(10);
 			System.out.println("Your reservation for sauna is complete!");
 			break;
 		case 2:
 			setTimesPoolUsed(getTimesPoolUsed() + 1);
+			addBalance(10);
 			System.out.println("Your reservation for pool is complete!");
 			break;
 		case 3:
 			setTimesRestaurantUsed(getTimesRestaurantUsed() + 1);
+			addBalance(20);
 			System.out.println("Your reservation for restaurant is complete!");
 			break;
 		case 4:
 			setTimesGymUsed(getTimesGymUsed() + 1);
-			System.out.println("Your reservation forgym is complete!");
+			addBalance(10);
+			System.out.println("Your reservation for gym is complete!");
 			break;
 		case 5:
 			setTimesCinemaUsed(getTimesCinemaUsed() + 1);
+			addBalance(10);
 			System.out.println("Your reservation for cinema is complete!");
 			break;
 		case 6:
@@ -379,7 +390,7 @@ public class Guest {
 
 	}
 
-		/**
+	/**
 	 * @author vojo
 	 * 
 	 */
@@ -398,12 +409,10 @@ public class Guest {
 		case 1:
 			System.out.println("Available single rooms:");
 
-			ArrayList<Room> availableSingleRooms = new Room()
-					.allAvailableRooms(Hotel.list_of_rooms, user);
+			ArrayList<Room> availableSingleRooms = new Room().allAvailableRooms(Hotel.list_of_rooms, user);
 
 			if (availableSingleRooms.isEmpty())
-				System.out
-						.println("Currently we do not have an empty SINGLE ROOM.");
+				System.out.println("Currently we do not have an empty SINGLE ROOM.");
 			else {
 				System.out.println("Enter the number of room, which you want:");
 
@@ -416,9 +425,7 @@ public class Guest {
 						this.addBalance(20 * unosInt(input));
 
 						this.setRoomNumber(newRoom);
-						System.out
-								.println("Guest has just changed the room number in: "
-										+ newRoom);
+						System.out.println("Guest has just changed the room number in: " + newRoom);
 						check = true;
 
 						room.setAvailable(false);
@@ -432,12 +439,10 @@ public class Guest {
 		case 2:
 			System.out.println("Available double rooms:");
 
-			ArrayList<Room> availableDoubleRooms = new Room()
-					.allAvailableRooms(Hotel.list_of_rooms, user);
+			ArrayList<Room> availableDoubleRooms = new Room().allAvailableRooms(Hotel.list_of_rooms, user);
 
 			if (availableDoubleRooms.isEmpty())
-				System.out
-						.println("Currently we do not have an empty double room.");
+				System.out.println("Currently we do not have an empty double room.");
 			else {
 				System.out.println("Enter the number of room, which you want:");
 
@@ -450,9 +455,7 @@ public class Guest {
 						this.addBalance(40 * unosInt(input));
 
 						this.setRoomNumber(newRoom);
-						System.out
-								.println("Guest has just changed the room number in: "
-										+ newRoom);
+						System.out.println("Guest has just changed the room number in: " + newRoom);
 						check = true;
 
 						room1.setAvailable(false);
@@ -466,12 +469,10 @@ public class Guest {
 		case 3:
 			System.out.println("Available apartment:");
 
-			ArrayList<Room> availableApartment = new Room().allAvailableRooms(
-					Hotel.list_of_rooms, user);
+			ArrayList<Room> availableApartment = new Room().allAvailableRooms(Hotel.list_of_rooms, user);
 
 			if (availableApartment.isEmpty())
-				System.out
-						.println("Currently we do not have an empty apartment.");
+				System.out.println("Currently we do not have an empty apartment.");
 			else {
 				System.out.println("Enter the number of room, which you want:");
 
@@ -484,16 +485,13 @@ public class Guest {
 						this.addBalance(60 * unosInt(input));
 
 						this.setRoomNumber(newRoom);
-						System.out
-								.println("Guest has just changed the room number in: "
-										+ newRoom);
+						System.out.println("Guest has just changed the room number in: " + newRoom);
 						check = true;
 						room.setAvailable(false);
 					}
 				}
 				if (!check)
-					System.out
-							.println("You did not select an available apartment!");
+					System.out.println("You did not select an available apartment!");
 			}
 
 			break;
@@ -511,17 +509,17 @@ public class Guest {
 
 	/** @Vojo */
 	public void checkOut() {
-		System.out.println("Your account is currently "+this.balance+" KM");
+		System.out.println("Your account is currently " + this.balance + " KM");
 		this.setCheckedIn(false);
 		System.exit(0);
 	}
-	
+
 	/** @Vojo */
 	public void logOut() {
 		System.out.println("You're now logged out! ");
 		System.exit(0);
 	}
-	
+
 	/** @Jasmina method for user's input */
 	public static int unosInt(Scanner input) {
 
