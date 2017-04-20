@@ -93,37 +93,39 @@ public class Room {
 				+ "$ per night/nRoom is available: " + isAvailable();
 	}
 
-   	/**
+   		/**
 	 * @author vojo
 	 * 
 	 * */
 	// method return list of available rooms
-	public ArrayList<Room> allAvailableRooms(ArrayList<Room> listRoms) {
+	public ArrayList<Room> allAvailableRooms(ArrayList<Room> listRoms,
+			int userType) {
 
 		ArrayList<Room> availableRooms = new ArrayList<>();
 		for (int numberRoom = 0; numberRoom < listRoms.size(); numberRoom++) {
 
-			// if single room and available add in list, and prints
-			if (this.isAvailable && this.roomNumber <= 45) {
+			// if single room and available add in list
+			if (listRoms.get(numberRoom).isAvailable() == 1
+					&& listRoms.get(numberRoom).getRoomNumber() <= 45
+					&& userType == 1) {
 				availableRooms.add(listRoms.get(numberRoom));
-				System.out
-						.print(listRoms.get(numberRoom).getRoomNumber() + " ");
-				// if double room and available add in list and prints
-			} else if (this.isAvailable
-					&& this.roomNumber < 90) {
+				
+				// if double room and available add in list "availableRooms"
+			} else if (listRoms.get(numberRoom).isAvailable() == 1
+					&& listRoms.get(numberRoom).getRoomNumber() < 90
+					&& listRoms.get(numberRoom).getRoomNumber() > 45
+					&& userType == 2) {
 				availableRooms.add(listRoms.get(numberRoom));
-				System.out
-						.print(listRoms.get(numberRoom).getRoomNumber() + " ");
-				// if apartment and available , add in list and prints
-			} else if (this.isAvailable
-					&& this.roomNumber >= 90) {
+				
+				// if apartment and available , add in list "availableRooms"
+			} else if (listRoms.get(numberRoom).isAvailable() == 1
+					&& listRoms.get(numberRoom).getRoomNumber() >= 90
+					&& userType == 3) {
 				availableRooms.add(listRoms.get(numberRoom));
-				System.out
-						.print(listRoms.get(numberRoom).getRoomNumber() + " ");
+				
 			}
 		}
 		// return list
 		return availableRooms;
 	}
 }
-
