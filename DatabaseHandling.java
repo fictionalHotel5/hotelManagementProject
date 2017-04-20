@@ -1,9 +1,9 @@
-package hotelManagementProject;
+
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class Database_handling {
+public class DatabaseHandling {
 
 	/*
 	 * @author Dzeno
@@ -22,7 +22,7 @@ public class Database_handling {
 		}
 	}
 
-	public static void load_admindb(ArrayList<Admin> list_of_admins,
+	public static void loadAdminDB(ArrayList<Admin> list_of_admins,
 			Statement statement) throws SQLException {
 
 		// METHOD FOR COPYING DATA FROM DATABASE, CREATING ADMIN OBJECTS AND
@@ -43,7 +43,7 @@ public class Database_handling {
 
 	}
 
-	public static void load_guestdb(ArrayList<Guest> list_of_guests,
+	public static void loadGuestDB(ArrayList<Guest> list_of_guests,
 			Statement statement) throws SQLException {
 
 		// METHOD FOR COPYING DATA FROM GUEST DATABASE AND CREATING GUEST
@@ -80,7 +80,7 @@ public class Database_handling {
 
 	}
 
-	public static void update_guestdb(ArrayList<Guest> list_of_guests,
+	public static void updateGuestDB(ArrayList<Guest> list_of_guests,
 			Statement statement) throws SQLException {
 
 		// METHOD FOR UPDATING DATABASE
@@ -110,7 +110,7 @@ public class Database_handling {
 
 	}
 
-	public static void load_roomdb(ArrayList<Room> list_of_rooms,
+	public static void loadRoomDB(ArrayList<Room> list_of_rooms,
 			Statement statement) throws SQLException {
 		
 		
@@ -125,7 +125,7 @@ public class Database_handling {
 
 	}
 
-	public static void update_roomdb(ArrayList<Room> list_of_rooms,
+	public static void updateRoomDB(ArrayList<Room> list_of_rooms,
 			Statement statement) throws SQLException {
 		for (int i = 0; i < list_of_rooms.size(); i++) {
 			
