@@ -90,6 +90,7 @@ public class Guest {
 
 	}
 
+	
 	/**
 	 * @ author vojo @ param isCheckedIn
 	 */
@@ -270,7 +271,7 @@ public class Guest {
 	}
 
 	/** @Jasmina */
-	public void displayMenu() throws SQLException {
+	public void displayMenu(ArrayList<Room> allRooms) throws SQLException {
 
 		System.out.println("Please choose from the following menu options:\n");
 		System.out.println("1.Check balance");
@@ -286,10 +287,10 @@ public class Guest {
 			checkBalance();
 			break;
 		case 2:
-			newServiceOrder();
+			newServiceOrder(allRooms);
 			break;
 		case 3:
-			newRoom();
+			newRoom(allRooms);
 			break;
 		case 4:
 			checkOut();
@@ -299,7 +300,7 @@ public class Guest {
 			break;
 		default:
 			System.out.println("Something went wrong.");
-			displayMenu();
+			System.exit(0);
 		}
 
 	}
@@ -333,12 +334,12 @@ public class Guest {
 			System.out.println("Cinema - 10 KM per day.");
 		}
 		System.out.println();
-		displayMenu();
+		System.exit(0);
 
 	}
 
 	/** @Jasmina method for ordering new services */
-	public void newServiceOrder() throws SQLException {
+	public void newServiceOrder(ArrayList<Room>allRooms) throws SQLException {
 
 		System.out.println("Please select which service you want to order: ");
 		System.out.println("1.Sauna");
@@ -381,11 +382,11 @@ public class Guest {
 			break;
 		case 6:
 			System.out.println("Exiting the service menu.......");
-			displayMenu();
+			System.exit(0);
 			break;
 		default:
 			System.out.println("Something went wrong.");
-			newServiceOrder();
+			newServiceOrder(allRooms);
 		}
 
 	}
@@ -394,7 +395,7 @@ public class Guest {
 	 * @author vojo
 	 * 
 	 * */
-	public void newRoom() throws SQLException {
+	public void newRoom(ArrayList<Room> allRooms) throws SQLException {
 
 		System.out.println("Please select which room you want to order: ");
 		System.out.println("1.SINGLE ROOM");
@@ -410,7 +411,7 @@ public class Guest {
 			System.out.println("Available single rooms:");
 
 			ArrayList<Room> availableSingleRooms = new Room()
-					.allAvailableRooms(Hotel.list_of_rooms);
+					.allAvailableRooms(allRooms);
 
 			if (availableSingleRooms.isEmpty())
 				System.out
@@ -444,7 +445,7 @@ public class Guest {
 			System.out.println("Available double rooms:");
 
 			ArrayList<Room> availableDoubleRooms = new Room()
-					.allAvailableRooms(Hotel.list_of_rooms);
+					.allAvailableRooms(allRooms);
 
 			if (availableDoubleRooms.isEmpty())
 				System.out
@@ -479,7 +480,7 @@ public class Guest {
 			System.out.println("Available apartment:");
 
 			ArrayList<Room> availableApartment = new Room().allAvailableRooms(
-					Hotel.list_of_rooms);
+					allRooms);
 
 			if (availableApartment.isEmpty())
 				System.out
@@ -512,11 +513,11 @@ public class Guest {
 
 		case 4:
 			System.out.println("Exiting the service menu.......");
-			displayMenu();
+			displayMenu(allRooms);
 			break;
 		default:
 			System.out.println("Something went wrong.");
-			newServiceOrder();
+			newServiceOrder(allRooms);
 		}
 
 	}
