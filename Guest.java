@@ -278,7 +278,7 @@ public class Guest {
 
 		switch (user) {
 		case 1:
-			checkBalance();
+			checkBalance(allRooms);
 			break;
 		case 2:
 			newServiceOrder(allRooms);
@@ -294,14 +294,14 @@ public class Guest {
 			break;
 		default:
 			System.out.println("Something went wrong.");
-			System.exit(0);
+			displayMenu(allRooms);
 		}
 
 	}
 
 	/** @Jasmina 
 	* method for user's check of current balance and all used services */
-	public void checkBalance() throws SQLException {
+	public void checkBalance(ArrayList<Room> allRooms) throws SQLException {
 
 		NumberFormat nf = NumberFormat.getCurrencyInstance();
 		String formatedPrice = nf.format(getBalance());
@@ -328,7 +328,7 @@ public class Guest {
 			System.out.println("Cinema - 10 KM per day.");
 		}
 		System.out.println();
-		System.exit(0);
+		displayMenu(allRooms);
 
 	}
 
@@ -378,13 +378,13 @@ public class Guest {
 			break;
 		case 6:
 			System.out.println("Exiting the service menu.......");
-			System.exit(0);
+			
 			break;
 		default:
 			System.out.println("Something went wrong.");
 			newServiceOrder(allRooms);
 		}
-
+		displayMenu(allRooms);
 	}
 
 	/**
