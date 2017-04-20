@@ -1,23 +1,21 @@
-package hotel_management;
+package hotel;
 
-import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Guest {
 
-	
-	
-	
-			static Connection connection;
-			static Scanner input = new Scanner(System.in);
-     
-       /**
+	static Scanner input = new Scanner(System.in);
+
+	/**
 	 * @author Sipo
 	 */
 	private String name;
@@ -39,9 +37,9 @@ public class Guest {
 	private int timesCinemaUsed;
 	private boolean isCheckedIn;
 
-	// constructor to return list of active users
-	public Guest(String name, String surname, String gender, String idnumber,
-			int age, int roomnumber, String roomtype) {
+	/** constructor to return list of active users */
+	public Guest(String name, String surname, String gender, String idnumber, int age, int roomnumber,
+			String roomtype) {
 
 		this.name = name;
 		this.surname = surname;
@@ -66,10 +64,9 @@ public class Guest {
 
 	}
 
-	public Guest(String name, String surname, String gender, String idnumber,
-			int age, int roomnumber, String roomtype, String time_check,
-			String username, int password, double balance, int numDay, int gym,
-			int pool, int restourant, int sauna, int cinema, boolean isCheckedIn) {
+	public Guest(String name, String surname, String gender, String idnumber, int age, int roomnumber, String roomtype,
+			String time_check, String username, int password, double balance, int numDay, int gym, int pool,
+			int restourant, int sauna, int cinema, boolean isCheckedIn) {
 
 		// Constructor for loading from database
 		this.username = username;
@@ -91,6 +88,13 @@ public class Guest {
 		this.timesSaunaUsed = sauna;
 		this.isCheckedIn = isCheckedIn;
 
+	}
+
+	/**
+	 * @ author vojo @ param isCheckedIn
+	 */
+	public void setCheckedIn(boolean isCheckedIn) {
+		this.isCheckedIn = isCheckedIn;
 	}
 
 	public String getName() {
@@ -155,6 +159,10 @@ public class Guest {
 
 	public void setBalance(double balance) {
 		this.balance = balance;
+	}
+
+	public void addBalance(double balance) {
+		this.balance += balance;
 	}
 
 	public int getNumOfDays() {
@@ -224,7 +232,7 @@ public class Guest {
 			return 0;
 	}
 
-	// constructor to change status of user in databse
+	/** constructor to change status of user in database */
 	public Guest(String username, boolean status) {
 		this.username = username;
 		this.isCheckedIn = status;
@@ -240,7 +248,7 @@ public class Guest {
 		this.isCheckedIn = status;
 	}
 
-	// no-arg construcator
+	/** no-arg construcator */
 	public Guest() {
 	}
 
@@ -260,19 +268,9 @@ public class Guest {
 	public Guest(String IDnumber) {
 		this.IDnumber = IDnumber;
 	}
-		/** sets status tp true or false */
-		public void setActive(boolean status) {
-			this.status = status;
-		}
 
-		
-		
-		//Vojo nastavi ;)
-	
-	
-	
-		/**@Jasmina*/
-	public  void displayMenu() throws SQLException {
+	/** @Jasmina */
+	public void displayMenu() throws SQLException {
 
 		System.out.println("Please choose from the following menu options:\n");
 		System.out.println("1.Check balance");
@@ -305,40 +303,43 @@ public class Guest {
 		}
 
 	}
-	
-	/**@Jasmina*/
-	public  void checkBalance() throws SQLException {
-		
-		/**prepravit kad dzeno zavrsi tabelu*/
-		String query="SELECT numofdays,gym,pool,restaurant,cinema,sauna FROM hotel WHERE username LIKE '" + getUsername() +"'";
-		connection = connect();
-		PreparedStatement stmt = connection.prepareStatement(query,ResultSet.TYPE_SCROLL_INSENSITIVE,
-				ResultSet.CONCUR_READ_ONLY);
-		ResultSet result = stmt.executeQuery(query);
-		
-		NumberFormat nf=NumberFormat.getCurrencyInstance();
-		
-		//kad dzeno uradi tabelu
-		int balans=0;
-		String formatedPrice=nf.format(balans);
-		
-		System.out.println("Your balans : " + formatedPrice + balans );
-		
-		//kad dzeno uradi tabelu
+
+	/** @Jasmina */
+	/** method for user's check of current balance and all used services */
+	public void checkBalance() throws SQLException {
+
+		NumberFormat nf = NumberFormat.getCurrencyInstance();
+		String formatedPrice = nf.format(getBalance());
+
+		System.out.println("Your balans for : " + getNumOfDays() + " days is: " + formatedPrice + getBalance());
+
+		if ((getTimesGymUsed() + getTimesPoolUsed() + getTimesRestaurantUsed() + getTimesSaunaUsed()
+				+ getTimesCinemaUsed()) > 0) {
+			System.out.println("Services you are using :");
+		}
+		if (getTimesGymUsed() > 0) {
+			System.out.println("Gym - 10 KM per day.");
+		}
+		if (getTimesPoolUsed() > 0) {
+			System.out.println("Pool - 10 KM per day.");
+		}
+		if (getTimesRestaurantUsed() > 0) {
+			System.out.println("Restaurant - 20 KM per day. ");
+		}
+		if (getTimesSaunaUsed() > 0) {
+			System.out.println("Sauna - 10 KM per day.");
+		}
+		if (getTimesCinemaUsed() > 0) {
+			System.out.println("Cinema - 10 KM per day.");
+		}
 		System.out.println();
-	
+		displayMenu();
+
 	}
 
-	/**@Jasmina*/
-	@SuppressWarnings("resource")
-	public  void newServiceOrder() throws SQLException {
+	/** @Jasmina method for ordering new services */
+	public void newServiceOrder() throws SQLException {
 
-		String query="SELECT gym,pool,restaurant,cinema,sauna FROM hotel WHERE username LIKE '" + getUsername() +"'";
-		connection = connect();
-		PreparedStatement stmt = connection.prepareStatement(query,ResultSet.TYPE_SCROLL_INSENSITIVE,
-				ResultSet.CONCUR_READ_ONLY);
-		ResultSet result = stmt.executeQuery(query);
-		
 		System.out.println("Please select which service you want to order: ");
 		System.out.println("1.Sauna");
 		System.out.println("2.Pool");
@@ -346,37 +347,36 @@ public class Guest {
 		System.out.println("4.Gym");
 		System.out.println("5.Cinema");
 		System.out.println("6.Exit menu");
-		
-		connection = connect();
-		
+
 		int user = unosInt(input);
 
-		/**add 1 to the current value of the chosen service*/
+		/** add 1 to the current value of the chosen service
+		 * add cost of the service to the balance 
+		 * */
 		switch (user) {
 		case 1:
-			
-			int saunaServise=result.getInt("sauna") + 1;
-			result = stmt.executeQuery("UPDATE sauna = '" + saunaServise + "' WHERE username LIKE '" + getUsername() +"'");
+			setTimesSaunaUsed(getTimesSaunaUsed() + 1);
+			addBalance(10);
 			System.out.println("Your reservation for sauna is complete!");
 			break;
 		case 2:
-			int poolServise=result.getInt("pool") + 1;
-			result = stmt.executeQuery("UPDATE pool = '" + poolServise + "' WHERE username LIKE '" + getUsername() +"'");
+			setTimesPoolUsed(getTimesPoolUsed() + 1);
+			addBalance(10);
 			System.out.println("Your reservation for pool is complete!");
 			break;
 		case 3:
-			int restaurantServise=result.getInt("restaurant") + 1;
-			result = stmt.executeQuery("UPDATE restaurant = '" + restaurantServise + "' WHERE username LIKE '" + getUsername() +"'");
+			setTimesRestaurantUsed(getTimesRestaurantUsed() + 1);
+			addBalance(20);
 			System.out.println("Your reservation for restaurant is complete!");
 			break;
 		case 4:
-			int gymServise=result.getInt("gym") + 1;
-			result = stmt.executeQuery("UPDATE gym = '" + gymServise + "' WHERE username LIKE '" + getUsername() +"'");
-			System.out.println("Your reservation forgym is complete!");
+			setTimesGymUsed(getTimesGymUsed() + 1);
+			addBalance(10);
+			System.out.println("Your reservation for gym is complete!");
 			break;
 		case 5:
-			int cinemaServise=result.getInt("cinema") + 1;
-			result = stmt.executeQuery("UPDATE cinema = '" + cinemaServise + "' WHERE username LIKE '" + getUsername() +"'");
+			setTimesCinemaUsed(getTimesCinemaUsed() + 1);
+			addBalance(10);
 			System.out.println("Your reservation for cinema is complete!");
 			break;
 		case 6:
@@ -387,22 +387,140 @@ public class Guest {
 			System.out.println("Something went wrong.");
 			newServiceOrder();
 		}
-		
+
 	}
 
-	public void newRoom() {
-		
+	/**
+	 * @author vojo
+	 * 
+	 */
+	public void newRoom() throws SQLException {
+
+		System.out.println("Please select which room you want to order: ");
+		System.out.println("1.SINGLE ROOM");
+		System.out.println("2.DOUBLE ROOM");
+		System.out.println("3.APARTMENT");
+		System.out.println("4.Exit menu");
+
+		int user = unosInt(input);
+
+		switch (user) {
+
+		case 1:
+			System.out.println("Available single rooms:");
+
+			ArrayList<Room> availableSingleRooms = new Room().allAvailableRooms(Hotel.list_of_rooms, user);
+
+			if (availableSingleRooms.isEmpty())
+				System.out.println("Currently we do not have an empty SINGLE ROOM.");
+			else {
+				System.out.println("Enter the number of room, which you want:");
+
+				int newRoom = unosInt(input);
+				boolean check = false;
+
+				for (Room room : availableSingleRooms) {
+					if (room.getRoomNumber() == newRoom) {
+						System.out.println("Enter the number of days:");
+						this.addBalance(20 * unosInt(input));
+
+						this.setRoomNumber(newRoom);
+						System.out.println("Guest has just changed the room number in: " + newRoom);
+						check = true;
+
+						room.setAvailable(false);
+					}
+				}
+				if (!check)
+					System.out.println("You did not select an available room!");
+			}
+
+			break;
+		case 2:
+			System.out.println("Available double rooms:");
+
+			ArrayList<Room> availableDoubleRooms = new Room().allAvailableRooms(Hotel.list_of_rooms, user);
+
+			if (availableDoubleRooms.isEmpty())
+				System.out.println("Currently we do not have an empty double room.");
+			else {
+				System.out.println("Enter the number of room, which you want:");
+
+				int newRoom = unosInt(input);
+				boolean check = false;
+
+				for (Room room1 : availableDoubleRooms) {
+					if (room1.getRoomNumber() == newRoom) {
+						System.out.println("Enter the number of days:");
+						this.addBalance(40 * unosInt(input));
+
+						this.setRoomNumber(newRoom);
+						System.out.println("Guest has just changed the room number in: " + newRoom);
+						check = true;
+
+						room1.setAvailable(false);
+					}
+				}
+				if (!check)
+					System.out.println("You did not select an available room!");
+			}
+
+			break;
+		case 3:
+			System.out.println("Available apartment:");
+
+			ArrayList<Room> availableApartment = new Room().allAvailableRooms(Hotel.list_of_rooms, user);
+
+			if (availableApartment.isEmpty())
+				System.out.println("Currently we do not have an empty apartment.");
+			else {
+				System.out.println("Enter the number of room, which you want:");
+
+				int newRoom = unosInt(input);
+				boolean check = false;
+
+				for (Room room : availableApartment) {
+					if (room.getRoomNumber() == newRoom) {
+						System.out.println("Enter the number of days:");
+						this.addBalance(60 * unosInt(input));
+
+						this.setRoomNumber(newRoom);
+						System.out.println("Guest has just changed the room number in: " + newRoom);
+						check = true;
+						room.setAvailable(false);
+					}
+				}
+				if (!check)
+					System.out.println("You did not select an available apartment!");
+			}
+
+			break;
+
+		case 4:
+			System.out.println("Exiting the service menu.......");
+			displayMenu();
+			break;
+		default:
+			System.out.println("Something went wrong.");
+			newServiceOrder();
+		}
+
 	}
 
+	/** @Vojo */
 	public void checkOut() {
-	
+		System.out.println("Your account is currently " + this.balance + " KM");
+		this.setCheckedIn(false);
+		System.exit(0);
 	}
 
-	public  void logOut() {
+	/** @Vojo */
+	public void logOut() {
 		System.out.println("You're now logged out! ");
+		System.exit(0);
 	}
 
-	/** for user input */
+	/** @Jasmina method for user's input */
 	public static int unosInt(Scanner input) {
 
 		int user = 0;
@@ -420,30 +538,5 @@ public class Guest {
 		} while (correct);
 		return user;
 	}
-	/**dok dzenanovo ne bude gotovo*/
-	public static Connection connect() throws SQLException {
-		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sql11169375?autoReconnect=true&useSSL=false","root","root");
-		return connection;
 
-	}
-
-/** for user input */
-	public static int unosInt(Scanner input) {
-
-		int user = 0;
-		boolean correct = true;
-
-		do {
-			try {
-				user = input.nextInt();
-				correct = false;
-				input.nextLine();
-			} catch (InputMismatchException ex) {
-				System.out.println("Wrong input.Try again:");
-				input.nextLine();
-			}
-		} while (correct);
-		return user;
-	}
-	
 }
