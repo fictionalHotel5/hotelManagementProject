@@ -92,5 +92,37 @@ public class Room {
 				+ "$ per night/nRoom is available: " + isAvailable();
 	}
 
+   	/**
+	 * @author vojo
+	 * 
+	 * */
+	// method return list of available rooms
+	public ArrayList<Room> allAvailableRooms(ArrayList<Room> listRoms) {
+
+		ArrayList<Room> availableRooms = new ArrayList<>();
+		for (int numberRoom = 0; numberRoom < listRoms.size(); numberRoom++) {
+
+			// if single room and available add in list, and prints
+			if (this.isAvailable && this.roomNumber <= 45) {
+				availableRooms.add(listRoms.get(numberRoom));
+				System.out
+						.print(listRoms.get(numberRoom).getRoomNumber() + " ");
+				// if double room and available add in list and prints
+			} else if (this.isAvailable
+					&& this.roomNumber < 90) {
+				availableRooms.add(listRoms.get(numberRoom));
+				System.out
+						.print(listRoms.get(numberRoom).getRoomNumber() + " ");
+				// if apartment and available , add in list and prints
+			} else if (this.isAvailable
+					&& this.roomNumber >= 90) {
+				availableRooms.add(listRoms.get(numberRoom));
+				System.out
+						.print(listRoms.get(numberRoom).getRoomNumber() + " ");
+			}
+		}
+		// return list
+		return availableRooms;
+	}
 }
 
