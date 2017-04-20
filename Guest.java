@@ -310,6 +310,9 @@ public class Guest {
 
 		System.out.println("Your balans for : " + getNumOfDays() + " days is: " + formatedPrice + getBalance());
 
+		if ((getTimesGymUsed()+getTimesPoolUsed()+getTimesRestaurantUsed()+getTimesSaunaUsed()+getTimesCinemaUsed())>0){
+			System.out.println("Services you are using :");
+		}
 		if (getTimesGymUsed() > 0) {
 			System.out.println("Gym - 10 KM per day.");
 		}
@@ -317,7 +320,7 @@ public class Guest {
 			System.out.println("Pool -10 KM per day.");
 		}
 		if (getTimesRestaurantUsed() > 0) {
-			System.out.println("Restaurant - 20 Km per day. ");
+			System.out.println("Restaurant - 20 KM per day. ");
 		}
 		if (getTimesSaunaUsed() > 0) {
 			System.out.println("Sauna - 10 KM per day.");
@@ -325,13 +328,12 @@ public class Guest {
 		if (getTimesCinemaUsed() > 0) {
 			System.out.println("Cinema - 10 KM per day.");
 		}
+		System.out.println();
+		displayMenu();
 
 	}
 
-	/**
-	 * @Jasmina method for ordering new services
-	 */
-
+	/** @Jasmina method for ordering new services */
 	public void newServiceOrder() throws SQLException {
 
 		System.out.println("Please select which service you want to order: ");
@@ -377,14 +379,12 @@ public class Guest {
 
 	}
 
-	// prepravit hotel i room klasu, u modifiere listi stavit static zbog
-	// pristupa
-
-	/**
+		/**
 	 * @author vojo
 	 * 
 	 */
 	public void newRoom() throws SQLException {
+
 		System.out.println("Please select which room you want to order: ");
 		System.out.println("1.SINGLE ROOM");
 		System.out.println("2.DOUBLE ROOM");
@@ -393,30 +393,35 @@ public class Guest {
 
 		int user = unosInt(input);
 
-		Room room = new Room();
-
 		switch (user) {
 
 		case 1:
 			System.out.println("Available single rooms:");
 
-			ArrayList<Room> availableSingleRooms = room.allAvailableRooms(Hotel.list_of_rooms, user);
+			ArrayList<Room> availableSingleRooms = new Room()
+					.allAvailableRooms(Hotel.list_of_rooms, user);
 
 			if (availableSingleRooms.isEmpty())
-				System.out.println("Currently we do not have an empty SINGLE ROOM.");
+				System.out
+						.println("Currently we do not have an empty SINGLE ROOM.");
 			else {
 				System.out.println("Enter the number of room, which you want:");
 
 				int newRoom = unosInt(input);
 				boolean check = false;
 
-				for (Room room1 : availableSingleRooms) {
-					if (room1.getRoomNumber() == newRoom) {
+				for (Room room : availableSingleRooms) {
+					if (room.getRoomNumber() == newRoom) {
+						System.out.println("Enter the number of days:");
+						this.addBalance(20 * unosInt(input));
+
 						this.setRoomNumber(newRoom);
-						System.out.println("Guest has just changed the room number in: " + newRoom);
+						System.out
+								.println("Guest has just changed the room number in: "
+										+ newRoom);
 						check = true;
 
-						room1.setAvailable(false);
+						room.setAvailable(false);
 					}
 				}
 				if (!check)
@@ -427,10 +432,12 @@ public class Guest {
 		case 2:
 			System.out.println("Available double rooms:");
 
-			ArrayList<Room> availableDoubleRooms = room.allAvailableRooms(Hotel.list_of_rooms, user);
+			ArrayList<Room> availableDoubleRooms = new Room()
+					.allAvailableRooms(Hotel.list_of_rooms, user);
 
 			if (availableDoubleRooms.isEmpty())
-				System.out.println("Currently we do not have an empty double room.");
+				System.out
+						.println("Currently we do not have an empty double room.");
 			else {
 				System.out.println("Enter the number of room, which you want:");
 
@@ -439,8 +446,13 @@ public class Guest {
 
 				for (Room room1 : availableDoubleRooms) {
 					if (room1.getRoomNumber() == newRoom) {
+						System.out.println("Enter the number of days:");
+						this.addBalance(40 * unosInt(input));
+
 						this.setRoomNumber(newRoom);
-						System.out.println("Guest has just changed the room number in: " + newRoom);
+						System.out
+								.println("Guest has just changed the room number in: "
+										+ newRoom);
 						check = true;
 
 						room1.setAvailable(false);
@@ -454,27 +466,34 @@ public class Guest {
 		case 3:
 			System.out.println("Available apartment:");
 
-			ArrayList<Room> availableApartment = room.allAvailableRooms(Hotel.list_of_rooms, user);
+			ArrayList<Room> availableApartment = new Room().allAvailableRooms(
+					Hotel.list_of_rooms, user);
 
 			if (availableApartment.isEmpty())
-				System.out.println("Currently we do not have an empty apartment.");
+				System.out
+						.println("Currently we do not have an empty apartment.");
 			else {
 				System.out.println("Enter the number of room, which you want:");
 
 				int newRoom = unosInt(input);
 				boolean check = false;
 
-				for (Room room1 : availableApartment) {
-					if (room1.getRoomNumber() == newRoom) {
-						this.setRoomNumber(newRoom);
-						System.out.println("Guest has just changed the room number in: " + newRoom);
-						check = true;
+				for (Room room : availableApartment) {
+					if (room.getRoomNumber() == newRoom) {
+						System.out.println("Enter the number of days:");
+						this.addBalance(60 * unosInt(input));
 
-						room1.setAvailable(false);
+						this.setRoomNumber(newRoom);
+						System.out
+								.println("Guest has just changed the room number in: "
+										+ newRoom);
+						check = true;
+						room.setAvailable(false);
 					}
 				}
 				if (!check)
-					System.out.println("You did not select an available apartment!");
+					System.out
+							.println("You did not select an available apartment!");
 			}
 
 			break;
@@ -490,19 +509,20 @@ public class Guest {
 
 	}
 
-	// kad admin klasa bude zavrsena
+	/** @Vojo */
 	public void checkOut() {
+		System.out.println("Your account is currently "+this.balance+" KM");
 		this.setCheckedIn(false);
-
+		System.exit(0);
 	}
-
+	
+	/** @Vojo */
 	public void logOut() {
 		System.out.println("You're now logged out! ");
+		System.exit(0);
 	}
-
-	/**
-	 * @Jasmina method for user's input
-	 */
+	
+	/** @Jasmina method for user's input */
 	public static int unosInt(Scanner input) {
 
 		int user = 0;
