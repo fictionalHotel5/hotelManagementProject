@@ -1,4 +1,5 @@
-package hotel;
+
+import java.util.ArrayList;
 
 public class Room {
 

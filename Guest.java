@@ -1,11 +1,5 @@
-package hotel;
 
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -48,7 +42,7 @@ public class Guest {
 		this.age = age;
 		this.roomNumber = roomnumber;
 		this.roomType = roomtype;
-		this.timeCheckedin = new Date() + "";
+		this.timeCheckedin = new java.util.Date() + "";
 		this.balance = 0;
 		this.isCheckedIn = true;
 
