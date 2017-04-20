@@ -514,7 +514,7 @@ public class Guest {
 
 	/** @Jasmina 
 	 * method for storing guest data into archive */
-	public String[] guestForArchiv() {
+	public String[] guestForArchive() {
 
 		/** converting age data to String type so it could be stored in array */
 		String[] zaArhiv = { name, surname, gender, IDnumber, String.valueOf(age) };
