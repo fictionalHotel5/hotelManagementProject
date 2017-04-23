@@ -29,31 +29,7 @@ public class Guest {
 	private int timesCinemaUsed;
 	private boolean isCheckedIn;
 
-	
-	
-	public Guest(Builder builder) {
-		this.firstName = builder.firstName;
-		this.lastName = builder.lastName;
-		this.userName = builder.userName;
-		this.password = builder.password;
-		this.idNumber = builder.idNumber;
-		this.sex = builder.sex;
-		this.age = builder.age;
-		this.roomNumber = builder.roomNumber;
-		this.roomType = builder.roomType;
-		this.balance = builder.balance;
-		this.numOfDays = builder.numOfDays;
-		this.timesGymUsed = builder.timesGymUsed;
-		this.timesPoolUsed = builder.timesPoolUsed;
-		this.timesRestaurantUsed = builder.timesRestaurantUsed;
-		this.timesSaunaUsed = builder.timesSaunaUsed;
-		this.timesCinemaUsed = builder.timesCinemaUsed;
-		this.timeCheckedIn = builder.timeCheckedIn;
-		this.isCheckedIn=builder.isCheckedIn;
-	}
-
-	/**@Jasmina
-	 * getters */
+	/**getters */
 	public String getFirstName() {
 		return firstName;
 	}
@@ -109,82 +85,31 @@ public class Guest {
 		return isCheckedIn;
 	}
 	
-	/**@Jasmina
-	 * setteri*/
 	
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	
+	public Guest(Builder builder) {
+		this.firstName = builder.firstName;
+		this.lastName = builder.lastName;
+		this.userName = builder.userName;
+		this.password = builder.password;
+		this.idNumber = builder.idNumber;
+		this.sex = builder.sex;
+		this.age = builder.age;
+		this.roomNumber = builder.roomNumber;
+		this.roomType = builder.roomType;
+		this.balance = builder.balance;
+		this.numOfDays = builder.numOfDays;
+		this.timesGymUsed = builder.timesGymUsed;
+		this.timesPoolUsed = builder.timesPoolUsed;
+		this.timesRestaurantUsed = builder.timesRestaurantUsed;
+		this.timesSaunaUsed = builder.timesSaunaUsed;
+		this.timesCinemaUsed = builder.timesCinemaUsed;
+		this.timeCheckedIn = builder.timeCheckedIn;
+		this.isCheckedIn=builder.isCheckedIn;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public void setPassword(int password) {
-		this.password = password;
-	}
-
-	public void setIdNumber(String idNumber) {
-		this.idNumber = idNumber;
-	}
-
-	public void setSex(String sex) {
-		this.sex = sex;
-	}
-
-	public void setRoomType(String roomType) {
-		this.roomType = roomType;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
-	}
-
-	public void setRoomNumber(int roomNumber) {
-		this.roomNumber = roomNumber;
-	}
-
-	public void setBalance(double balance) {
-		this.balance = balance;
-	}
-
-	public void setNumOfDays(int numOfDays) {
-		this.numOfDays = numOfDays;
-	}
-
-	public void setTimesGymUsed(int timesGymUsed) {
-		this.timesGymUsed = timesGymUsed;
-	}
-
-	public void setTimesPoolUsed(int timesPoolUsed) {
-		this.timesPoolUsed = timesPoolUsed;
-	}
-
-	public void setTimesRestaurantUsed(int timesRestaurantUsed) {
-		this.timesRestaurantUsed = timesRestaurantUsed;
-	}
-
-	public void setTimesSaunaUsed(int timesSaunaUsed) {
-		this.timesSaunaUsed = timesSaunaUsed;
-	}
-
-	public void setTimesCinemaUsed(int timesCinemaUsed) {
-		this.timesCinemaUsed = timesCinemaUsed;
-	}
-
-	public void setCheckedIn(boolean isCheckedIn) {
-		this.isCheckedIn = isCheckedIn;
-	}
-
-	public void setTimeCheckedIn(Date timeCheckedIn) {
-		this.timeCheckedIn = timeCheckedIn;
-	}
-
-
+	
+	
 	/**@Jasmina*/
 	public static class Builder {
 	
@@ -212,6 +137,64 @@ public class Guest {
 		public Builder() {
 
 		}
+		
+		/**@Jasmina
+		 * getters */
+		public String getFirstName() {
+			return firstName;
+		}
+		public String getLastName() {
+			return lastName;
+		}
+		public String getUserName() {
+			return userName;
+		}
+		public int getPassword() {
+			return password;
+		}
+		public String getIdNumber() {
+			return idNumber;
+		}
+		public String getGender() {
+			return sex;
+		}
+		public int getAge() {
+			return age;
+		}
+		public String getRoomType() {
+			return roomType;
+		}
+		public int getRoomNumber() {
+			return roomNumber;
+		}
+		public Date getTimeCheckedIn() {
+			return timeCheckedIn;
+		}	
+		public double getBalance() {
+			return balance;
+		}
+		public int getNumOfDays() {
+			return numOfDays;
+		}
+		public int getTimesGymUsed() {
+			return timesGymUsed;
+		}
+		public int getTimesPoolUsed() {
+			return timesPoolUsed;
+		}
+		public int getTimesRestaurantUsed() {
+			return timesRestaurantUsed;
+		}
+		public int getTimesSaunaUsed() {
+			return timesSaunaUsed;
+		}
+		public int getTimesCinemaUsed() {
+			return timesCinemaUsed;
+		}
+		public boolean isCheckedIn() {
+			return isCheckedIn;
+		}
+		
 	
 		/**setters*/
 		public Builder firstName(String firstName) {
@@ -289,6 +272,14 @@ public class Guest {
 			return this;
 		}
 		
+		
+		public void setNewRoom(int newRoom) {
+			this.roomNumber=newRoom;
+		}
+		public void addBalance(double newBalance) {
+			this.balance+=newBalance;
+		}
+		
 		/** @ Jasmina */
 
 		public Guest build() {
@@ -329,10 +320,5 @@ public class Guest {
 
 	}
 
-	public void setNewRoom(int newRoom) {
-		this.roomNumber=newRoom;
-	}
-	public void addBalance(double newBalance) {
-		this.balance+=newBalance;
-	}
+	
 	}
