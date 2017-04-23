@@ -1,260 +1,94 @@
 
 import java.util.ArrayList;
 
-public class Guest {
+public class Room {
 
-	/**
-	 * @author Sipo
+	/*
+	 * Room class contains variables and methods related to hotel room
 	 */
 
-	private String firstName;
-	private String lastName;
-	private String userName;
-	private String password;
-	private String idNumber;
-	private String sex;
-	private int age;
 	private int roomNumber;
 	private String roomType;
-	private Date timeCheckedIn;
-	private double balance;
-	private int numOfDays;
-	private int timesGymUsed;
-	private int timesPoolUsed;
-	private int timesRestaurantUsed;
-	private int timesSaunaUsed;
-	private int timesCinemaUsed;
-	private boolean isCheckedIn;
+	private boolean isAvailable;
+	private int costPerDay;
 
-	
-	
-	public Guest(Builder builder) {
-		this.firstName = builder.firstName;
-		this.lastName = builder.lastName;
-		this.userName = builder.userName;
-		this.password = builder.password;
-		this.idNumber = builder.idNumber;
-		this.sex = builder.sex;
-		this.age = builder.age;
-		this.roomNumber = builder.roomNumber;
-		this.roomType = builder.roomType;
-		this.balance = builder.balance;
-		this.numOfDays = builder.numOfDays;
-		this.timesGymUsed = builder.timesGymUsed;
-		this.timesPoolUsed = builder.timesPoolUsed;
-		this.timesRestaurantUsed = builder.timesRestaurantUsed;
-		this.timesSaunaUsed = builder.timesSaunaUsed;
-		this.timesCinemaUsed = builder.timesCinemaUsed;
-		this.timeCheckedIn = builder.timeCheckedIn;
-		this.isCheckedIn=builder.isCheckedIn;
+	// no-arg constructor
+	public Room() {
+
 	}
 
-	/**getters */
-	public String getFirstName() {
-		return firstName;
+	Room(int roomNumber, boolean isAvailable) {
+		// CONSTRUCTOR FOR LOADING ROOM FROM DATABASE
+		this.roomNumber = roomNumber;
+		this.isAvailable = isAvailable;
+
+		if (this.roomNumber <= 45) {
+			this.roomType = "JEDNOKREVETNA";
+			this.costPerDay = 20;
+		} else if (this.roomNumber < 90) {
+			this.roomType = "DVOKREVETNA";
+			this.costPerDay = 40;
+		} else {
+			this.roomType = "APARTMAN";
+			this.costPerDay = 60;
+		}
+
 	}
-	public String getLastName() {
-		return lastName;
+
+	Room(int roomNumber) {
+		// CONSTRUCTOR FOR ROOM
+		this.roomNumber = roomNumber;
+		this.isAvailable = true;
+
+		if (this.roomNumber <= 45) {
+			this.roomType = "JEDNOKREVETNA";
+			this.costPerDay = 20;
+		} else if (this.roomNumber < 90) {
+			this.roomType = "DVOKREVETNA";
+			this.costPerDay = 40;
+		} else {
+			this.roomType = "APARTMAN";
+			this.costPerDay = 60;
+		}
 	}
-	public String getUserName() {
-		return userName;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public String getIdNumber() {
-		return idNumber;
-	}
-	public String getSex() {
-		return sex;
-	}
-	public int getAge() {
-		return age;
-	}
-	public String getRoomType() {
-		return roomType;
-	}
+
 	public int getRoomNumber() {
 		return roomNumber;
 	}
-	public Date getTimeCheckedIn() {
-		return timeCheckedIn;
-	}	
-	public double getBalance() {
-		return balance;
-	}
-	public int getNumOfDays() {
-		return numOfDays;
-	}
-	public int getTimesGymUsed() {
-		return timesGymUsed;
-	}
-	public int getTimesPoolUsed() {
-		return timesPoolUsed;
-	}
-	public int getTimesRestaurantUsed() {
-		return timesRestaurantUsed;
-	}
-	public int getTimesSaunaUsed() {
-		return timesSaunaUsed;
-	}
-	public int getTimesCinemaUsed() {
-		return timesCinemaUsed;
-	}
-	public boolean isCheckedIn() {
-		return isCheckedIn;
+
+	public void setRoomNumber(int roomNumber) {
+		this.roomNumber = roomNumber;
 	}
 
-	public static class Builder {
-
-		private String firstName;
-		private String lastName;
-		private String userName;
-		private String password;
-		private String idNumber;
-		private String sex;
-		private String roomType;
-		private int age;
-		private int roomNumber;
-		private double balance;
-		private int numOfDays;
-		private int timesGymUsed;
-		private int timesPoolUsed;
-		private int timesRestaurantUsed;
-		private int timesSaunaUsed;
-		private int timesCinemaUsed;
-		private boolean isCheckedIn;	
-		private Date timeCheckedIn;
-
-		public Builder() {
-
-		}
-	
-		/**setters*/
-		public Builder firstName(String firstName) {
-			this.firstName = firstName;
-			return this;
-		}		
-		public Builder lastName(String lastName) {
-			this.lastName = lastName;
-			return this;
-		}		
-		public Builder userName(String userName) {
-			this.userName = userName;
-			return this;
-		}	
-		public Builder password(String password) {
-			this.password = password;
-			return this;
-		}	
-		public Builder idNumber(String idNumber) {
-			this.idNumber = idNumber;
-			return this;
-		}	
-		public Builder sex(String sex) {
-			this.sex = sex;
-			return this;
-		}
-		public Builder age(int age){
-			this.age = age;
-			return this;
-		}
-		public Builder roomType(String type) {
-			this.roomType = type;
-			return this;
-		}	
-		public Builder roomNumber(int room) {
-			this.roomNumber = room;
-			return this;
-		}
-
-		public Builder timeCheckedIn(Date checkedIn){ 
-			this.timeCheckedIn = checkedIn;
-			return this;
-		}
-		public Builder isCheckedIn(boolean isChecked){	
-		    this.isCheckedIn = isChecked;
-			return this;
-		}
-		public Builder balance(double balance){
-			this.balance = balance;
-			return this;
-		}
-		public Builder numOfDays(int numOfDays){
-			this.numOfDays = numOfDays;
-			return this;
-		}
-		public Builder timesGymUsed(int timesGymUsed){
-			this.timesGymUsed= timesGymUsed;
-			return this;
-		}
-		public Builder timesPoolUsed(int timesPoolUsed){
-			this.timesPoolUsed= timesPoolUsed;
-			return this;
-		}
-		public Builder timesSaunaUsed(int timesSaunaUsed){
-			this.timesSaunaUsed= timesSaunaUsed;
-			return this;
-		}
-		public Builder timesRestaurantUsed(int timesRestaurantUsed){
-			this.timesRestaurantUsed= timesRestaurantUsed;
-			return this;
-		}
-		public Builder timesCinemaUsed(int timesCinemaUsed){
-			this.timesCinemaUsed= timesCinemaUsed;
-			return this;
-		}
-		
-
-		/** @ Jasmina */
-
-		public Guest build() {
-			/* if(firstName==null){
-				throw new IllegalStateException( " No first name!");
-			}
-			if(lastName==null){
-				throw new IllegalStateException( " No last name!");
-			}
-			if(userName==null){
-				throw new IllegalStateException( " No user name!");
-			}
-			if(password==null){
-				throw new IllegalStateException( " No password!");
-			}
-			if(idNumber==null){
-				throw new IllegalStateException( " No ID number!");
-			}
-			if(sex==null){
-				throw new IllegalStateException( " No sex!");
-			}
-			if (age <18 || age >120 ){
-				throw new IllegalStateException( " Age out of range!");
-			}
-			if (roomNumber < 1 ){
-				throw new IllegalStateException( " Room number does not exists!");
-			}
-			if(roomType==null){
-				throw new IllegalStateException( " No room type!");
-			}
-		
-			if(timeCheckedIn==null){
-				throw new IllegalStateException( " No time checked in!");
-			} */
-			
-			
-			
-			return new Guest(this);
-		}
-
+	public String getRoomType() {
+		return roomType;
 	}
 
-	public void setNewRoom(int newRoom) {
-		this.roomNumber=newRoom;
-	}
-	public void addBalance(double newBalance) {
-		this.balance+=newBalance;
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
 	}
 
+	public int getCostPerDay() {
+		return costPerDay;
+	}
 
+	public void setCostPerDay(int costPerDay) {
+		this.costPerDay = costPerDay;
+	}
 
-}
+	public int isAvailable() {
+		if (isAvailable)
+			return 1;
+		else
+			return 0;
+	}
+
+	public void setAvailable(boolean isAvailable) {
+		this.isAvailable = isAvailable;
+	}
+
+	public String toString() {
+		return "Room :" + getRoomNumber() + "/nRoom type: " + getRoomType()
+				+ "/nThis room cost: " + getCostPerDay()
+				+ "$ per night/nRoom is available: " + isAvailable();
+	}
