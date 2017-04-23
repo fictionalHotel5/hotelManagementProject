@@ -1,10 +1,6 @@
-package hotelManagment;
 
-import java.sql.SQLException;
-import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.InputMismatchException;
+
 import java.util.Scanner;
 
 public class Guest {
@@ -56,7 +52,8 @@ public class Guest {
 		this.isCheckedIn=builder.isCheckedIn;
 	}
 
-	/**getters */
+	/**@Jasmina
+	 * getters */
 	public String getFirstName() {
 		return firstName;
 	}
@@ -111,9 +108,87 @@ public class Guest {
 	public boolean isCheckedIn() {
 		return isCheckedIn;
 	}
+	
+	/**@Jasmina
+	 * setteri*/
+	
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public void setPassword(int password) {
+		this.password = password;
+	}
+
+	public void setIdNumber(String idNumber) {
+		this.idNumber = idNumber;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public void setRoomNumber(int roomNumber) {
+		this.roomNumber = roomNumber;
+	}
+
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+
+	public void setNumOfDays(int numOfDays) {
+		this.numOfDays = numOfDays;
+	}
+
+	public void setTimesGymUsed(int timesGymUsed) {
+		this.timesGymUsed = timesGymUsed;
+	}
+
+	public void setTimesPoolUsed(int timesPoolUsed) {
+		this.timesPoolUsed = timesPoolUsed;
+	}
+
+	public void setTimesRestaurantUsed(int timesRestaurantUsed) {
+		this.timesRestaurantUsed = timesRestaurantUsed;
+	}
+
+	public void setTimesSaunaUsed(int timesSaunaUsed) {
+		this.timesSaunaUsed = timesSaunaUsed;
+	}
+
+	public void setTimesCinemaUsed(int timesCinemaUsed) {
+		this.timesCinemaUsed = timesCinemaUsed;
+	}
+
+	public void setCheckedIn(boolean isCheckedIn) {
+		this.isCheckedIn = isCheckedIn;
+	}
+
+	public void setTimeCheckedIn(Date timeCheckedIn) {
+		this.timeCheckedIn = timeCheckedIn;
+	}
+
+
+	/**@Jasmina*/
 	public static class Builder {
-
+	
+		/**data fields of Builder class*/
 		private String firstName;
 		private String lastName;
 		private String userName;
@@ -133,6 +208,7 @@ public class Guest {
 		private boolean isCheckedIn;	
 		private Date timeCheckedIn;
 
+		/**no arg constructor*/
 		public Builder() {
 
 		}
@@ -213,9 +289,6 @@ public class Guest {
 			return this;
 		}
 		
-		
-		
-
 		/** @ Jasmina */
 
 		public Guest build() {
@@ -250,9 +323,7 @@ public class Guest {
 			if(timeCheckedIn==null){
 				throw new IllegalStateException( " No time checked in!");
 			} 
-			
-			
-			
+					
 			return new Guest(this);
 		}
 
@@ -263,4 +334,5 @@ public class Guest {
 	}
 	public void addBalance(double newBalance) {
 		this.balance+=newBalance;
+	}
 	}
