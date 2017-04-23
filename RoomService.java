@@ -248,11 +248,11 @@ public class RoomService {
 					numberNewRoom, newBalance, numberOfDays);
 			System.out.println("Guest has just changed the room number in: "
 					+ numberNewRoom);
-			System.out.println("Update begine");
+			 
 			new Database().updateRoom(guest.getRoomNumber(), numberNewRoom);
 			new Database().updateGuest(guest.getUserName(), "Single room",
 					numberNewRoom, newBalance, numberOfDays);
-			System.out.println("Update ende");
+			 
 
 		}
 	}
