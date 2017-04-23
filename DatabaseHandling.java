@@ -139,30 +139,82 @@ public class DatabaseHandling {
 			statement.execute(query);
 		}
 	}
-		/**
-		 * @author Vojo
-		 * */
-		public static void loadAllAvailableRooms(
-				ArrayList<Room> availableRooms, java.sql.Statement statement)
-				throws SQLException {
+			/**
+	 * @author Vojo
+	 * */
+	// METHOD FOR COPYING DATA FROM ROOMS WHERE is_booked=1(available), AND
+	// PUT NUBER ROOM IN LIST
+	public static void loadAllAvailableRooms(ArrayList<Room> availableRooms,
+			java.sql.Statement statement) throws SQLException {
 
-			// METHOD FOR COPYING DATA FROM ROOMS WHERE is_booked=1(available), AND
-			// PUT NUBER ROOM IN LIST
+		String query = "SELECT * " + "FROM hotel.rooms " + "WHERE is_booked=1;";
+		ResultSet result = ((java.sql.Statement) statement).executeQuery(query);
 
-			String query = "SELECT * " + "FROM hotel.rooms " + "WHERE is_booked=1;";
-			ResultSet result = ((java.sql.Statement) statement).executeQuery(query);
+		try {
+			while (result.next()) {
 
-			try {
-				while (result.next()) {
-
-					availableRooms.add(new Room(result.getInt("room_nmb"),
-							result.getBoolean("is_booked")));
-				}
-
-			} catch (Exception ex) {
-				System.out.println("Exception");
+				availableRooms.add(new Room(result.getInt("room_nmb"), result
+						.getBoolean("is_booked")));
 			}
 
-	
+		} catch (Exception ex) {
+			System.out.println("Exception");
+		}
+
+	}
+
+	/**
+	 * @author Vojo
+	 * */
+	// metoda update podatke kod gosta prilikom promjene sobe
+	public void updateGuest(String username, String roomType, int roomNumber,
+			double balanc, int newNumberOfDays) {
+		try {
+			PreparedStatement statement1 = connectToDB().prepareStatement(
+					"UPDATE guests SET room_type = '" + roomType
+							+ "' WHERE user_name = '" + username + "';");
+
+			PreparedStatement statement2 = connectToDB().prepareStatement(
+					"UPDATE guests SET room_number = '" + roomNumber
+							+ "' WHERE user_name = '" + username + "';");
+
+			PreparedStatement statement3 = connectToDB().prepareStatement(
+					"UPDATE guests SET balance = '" + balanc
+							+ "' WHERE user_name = '" + username + "';");
+			PreparedStatement statement4 = connectToDB().prepareStatement(
+					"UPDATE guests SET number_of_days = '" + newNumberOfDays
+							+ "' WHERE user_name = '" + username + "';");
+
+			statement1.executeUpdate();
+			statement2.executeUpdate();
+			statement3.executeUpdate();
+			statement4.executeUpdate();
+		} catch (Exception e) {
+			System.err.println(e.toString());
+		}
+
+	}
+
+	/**
+	 * @author Vojo
+	 * */
+	// metoda update podatke kod Sobe, prilikom prelaska gosta iz jedne sobe u
+	// drugu
+	public void updateRoom(int oldRoomNumber, int newRoomNumber) {
+		try {
+			PreparedStatement statement1 = connectToDB().prepareStatement(
+					"UPDATE rooms " + "SET is_booked = '1' "
+							+ "WHERE room_nmb = '" + oldRoomNumber + "';");
+
+			PreparedStatement statement2 = connectToDB().prepareStatement(
+					"UPDATE rooms " + "SET is_booked = '0' "
+							+ "WHERE room_nmb  = '" + newRoomNumber + "';");
+
+			statement1.executeUpdate();
+			statement2.executeUpdate();
+
+		} catch (Exception e) {
+			System.err.println(e.toString());
+		}
 	}
 }
