@@ -1,5 +1,4 @@
 
-import java.util.ArrayList;
 
 public class Room {
 
@@ -91,4 +90,4 @@ public class Room {
 		return "Room :" + getRoomNumber() + "/nRoom type: " + getRoomType()
 				+ "/nThis room cost: " + getCostPerDay()
 				+ "$ per night/nRoom is available: " + isAvailable();
-	}
+	}}
