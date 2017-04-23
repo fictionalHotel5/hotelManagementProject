@@ -14,6 +14,7 @@ public class RoomService {
 	public void displayMenu(ArrayList<Room> allRooms, Guest guest)
 			throws SQLException {
 
+		/** main menu for user */
 		System.out.println("Please choose from the following menu options:\n");
 		System.out.println("1.Check balance");
 		System.out.println("2.New service order");
@@ -47,9 +48,10 @@ public class RoomService {
 	}
 
 	/**
-	 * @Jasmina method for user's check of current balance and all used services
+	 * @Jasmina 
+	 * method for user's check of current balance and all used services
 	 */
-	public void checkBalance() throws SQLException {
+	public void checkBalance(Guest guest) throws SQLException {
 
 		NumberFormat nf = NumberFormat.getCurrencyInstance();
 
@@ -84,7 +86,8 @@ public class RoomService {
 	}
 
 	/**
-	 * @Jasmina method for ordering new services
+	 * @Jasmina 
+	 * method for ordering new services for specific number of days
 	 */
 	public void newServiceOrder(ArrayList<Room> allRooms, Guest guest)
 			throws SQLException {
@@ -98,49 +101,52 @@ public class RoomService {
 		System.out.println("6.Exit menu");
 
 		int user = unosInt(input);
+		System.out.println("Enter a number of day for which you want a service: ");
+		int numOfDays=unosInt(input);
 
 		/**
-		 * add 1 to the current value of the chosen service add cost of the
-		 * service to the balance
+		 * add user's input of number of days to the current value of the chosen service 
+		 * add to the balance cost of the services*number of days
 		 */
 		switch (user) {
 		case 1:
-			guest.setTimesSaunaUsed(guest.getTimesSaunaUsed() + 1);
-			guest.getBalance(10);
+			guest.setTimesSaunaUsed(guest.getTimesSaunaUsed() + numOfDays);
+			guest.addBalance(10*numOfDays);
 			System.out.println("Your reservation for sauna is complete!");
 			break;
 		case 2:
-			guest.setTimesPoolUsed(guest.getTimesPoolUsed() + 1);
-			guest.getBalance(10);
+			guest.setTimesPoolUsed(guest.getTimesPoolUsed() + numOfDays);
+			guest.addBalance(10*numOfDays);
 			System.out.println("Your reservation for pool is complete!");
 			break;
 		case 3:
-			guest.setTimesRestaurantUsed(guest.getTimesRestaurantUsed() + 1);
-			guest.getBalance(20);
+			guest.setTimesRestaurantUsed(guest.getTimesRestaurantUsed() + numOfDays);
+			guest.addBalance(20*numOfDays);
 			System.out.println("Your reservation for restaurant is complete!");
 			break;
 		case 4:
-			guest.setTimesGymUsed(guest.getTimesGymUsed() + 1);
-			guest.getBalance(10);
+			guest.setTimesGymUsed(guest.getTimesGymUsed() +numOfDays);
+			guest.addBalance(10*numOfDays);
 			System.out.println("Your reservation for gym is complete!");
 			break;
 		case 5:
-			guest.setTimesCinemaUsed(guest.getTimesCinemaUsed() + 1);
-			guest.getBalance(10);
+			guest.setTimesCinemaUsed(guest.getTimesCinemaUsed() + numOfDays);
+			guest.addBalance(10*numOfDays);
 			System.out.println("Your reservation for cinema is complete!");
 			break;
 		case 6:
 			System.out.println("Exiting the service menu.......");
-			System.exit(0);
+			displayMenu(allRooms,guest);
 			break;
 		default:
 			System.out.println("Something went wrong.");
 			newServiceOrder(allRooms, guest);
 		}
+		
 
 	}
 
-		/**
+	/**
 	 * @author vojo
 	 * 
 	 */
@@ -172,7 +178,7 @@ public class RoomService {
 
 		case 4:
 			System.out.println("Exiting the service menu.......");
-			
+			displayMenu(allAvailableRooms, guest);
 			break;
 
 		}
@@ -191,9 +197,7 @@ public class RoomService {
 		else {
 			printAvailableRoom(allAvailableRooms, 3);
 			System.out.println("Enter the number of room :");
-
 			int numberNewRoom = unosInt(input);
-
 			while (numberNewRoom > 100 || numberNewRoom < 90
 					|| isOcupated(allAvailableRooms, numberNewRoom)) {
 				System.out.println("Enter the number of room which are free:");
@@ -201,19 +205,14 @@ public class RoomService {
 			}
 
 			System.out.println("Enter the number of days:");
-			// Gost update roomNumber, rommType, balanc.
-			int numberOfDays = unosInt(input);
-			double newBalance = (guest.getBalance() + (numberOfDays * 60));
 
-			new Database().updateGuest(guest.getUserName(), "Single room",
-					numberNewRoom, newBalance, numberOfDays);
+			guest.addBalance(unosInt(input) * 50);
+			guest.setNewRoom(numberNewRoom);
 			System.out.println("Guest has just changed the room number in: "
 					+ numberNewRoom);
+			setOccupiedRoom(allAvailableRooms, numberNewRoom);
 
-			new Database().updateRoom(guest.getRoomNumber(), numberNewRoom);
-			new Database().updateGuest(guest.getUserName(), "Single room",
-					numberNewRoom, newBalance, numberOfDays);
-
+			newRoom(allAvailableRooms, guest);
 		}
 	}
 
@@ -240,19 +239,14 @@ public class RoomService {
 			}
 
 			System.out.println("Enter the number of days:");
-			// Gost update roomNumber, rommType, balanc.
-			int numberOfDays = unosInt(input);
-			double newBalance = (guest.getBalance() + (numberOfDays * 20));
+			guest.addBalance(unosInt(input) * 20);
 
-			new Database().updateGuest(guest.getUserName(), "Single room",
-					numberNewRoom, newBalance, numberOfDays);
+			guest.setNewRoom(numberNewRoom);
+
 			System.out.println("Guest has just changed the room number in: "
 					+ numberNewRoom);
-			 
-			new Database().updateRoom(guest.getRoomNumber(), numberNewRoom);
-			new Database().updateGuest(guest.getUserName(), "Single room",
-					numberNewRoom, newBalance, numberOfDays);
-			 
+			setOccupiedRoom(allAvailableRooms, numberNewRoom);
+			newRoom(allAvailableRooms, guest);
 
 		}
 	}
@@ -277,18 +271,12 @@ public class RoomService {
 			}
 
 			System.out.println("Enter the number of days:");
-			// Gost update roomNumber, rommType, balanc.
-			int numberOfDays = unosInt(input);
-			double newBalance = (guest.getBalance() + (numberOfDays * 40));
+			guest.addBalance(unosInt(input) * 20);
 
-			new Database().updateGuest(guest.getUserName(), "Single room",
-					numberNewRoom, newBalance, numberOfDays);
+			guest.setNewRoom(numberNewRoom);
+
 			System.out.println("Guest has just changed the room number in: "
 					+ numberNewRoom);
-
-			new Database().updateRoom(guest.getRoomNumber(), numberNewRoom);
-			new Database().updateGuest(guest.getUserName(), "Double room",
-					numberNewRoom, newBalance, numberOfDays);
 
 		}
 	}
@@ -317,14 +305,29 @@ public class RoomService {
 	/**
 	 * @Vojo
 	 * */
+	private void setOccupiedRoom(ArrayList<Room> listRoms, int numberRoom) {
+		for (Room room : listRoms) {
+			if (room.getRoomNumber() == numberRoom) {
+				room.setAvailable(false);
+				System.out.println("Room number " + numberRoom
+						+ " has just ccupied.");
 
+			}
+		}
+
+	}
+
+	/**
+	 * @Vojo
+	 * 
+	 * */
 	private void printAvailableRoom(ArrayList<Room> listRoms, int numberRoom) {
 		switch (numberRoom) {
 		case 1:
 			System.out.println("Available single rooms:");
 			for (int i = 0; i < listRoms.size(); i++) {
 				if (listRoms.get(i).getRoomNumber() <= 45)
-					System.out.print(listRoms.get(i).getRoomNumber() + " ");
+					System.out.println(listRoms.get(i).getRoomNumber());
 
 			}
 
@@ -346,7 +349,7 @@ public class RoomService {
 			System.out.println("Available APARTMENTS:");
 
 			for (Room room : listRoms) {
-				if (room.getRoomNumber() > 89)
+				if (room.getRoomNumber() > 90)
 					System.out.print(room.getRoomNumber() + " ");
 			}
 			System.out.println();
@@ -360,28 +363,17 @@ public class RoomService {
 	private void checkOut(Guest guest) {
 		System.out.println("Your account is currently " + guest.getBalance()
 				+ " KM");
-		new Database().guestCheckOut(guest.getUserName());
+		new Guest.Builder().isCheckedIn(false);
+		System.exit(0);
 	}
 
 	/** @Vojo */
 	private void logOut() {
 		System.out.println("You're now logged out! ");
-
+		System.exit(0);
 	}
 
-
-	/**
-	 * @Jasmina method for storing guest data into archive
-	 */
-	public String[] guestForArchive(Guest guest) {
-
-		/** converting age data to String type so it could be stored in array */
-		String[] zaArhiv = { guest.getName(), guest.getSurname(),
-				guest.getGender(), guest.getIDnumber(),
-				String.valueOf(guest.getAge()) };
-
-		return zaArhiv;
-	}
+	
 
 	/**
 	 * @Jasmina method for user's input
