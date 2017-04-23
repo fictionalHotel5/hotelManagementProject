@@ -1,19 +1,15 @@
+package hotelManagment;
 
- 
 import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
-import java.sql.Date;
-import java.sql.SQLException;
-import java.text.NumberFormat;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Guest {
 
+	static Scanner input = new Scanner(System.in);
 	/**
 	 * @author Sipo
 	 */
@@ -21,7 +17,7 @@ public class Guest {
 	private String firstName;
 	private String lastName;
 	private String userName;
-	private String password;
+	private int password;
 	private String idNumber;
 	private String sex;
 	private int age;
@@ -70,13 +66,13 @@ public class Guest {
 	public String getUserName() {
 		return userName;
 	}
-	public String getPassword() {
+	public int getPassword() {
 		return password;
 	}
 	public String getIdNumber() {
 		return idNumber;
 	}
-	public String getSex() {
+	public String getGender() {
 		return sex;
 	}
 	public int getAge() {
@@ -121,7 +117,7 @@ public class Guest {
 		private String firstName;
 		private String lastName;
 		private String userName;
-		private String password;
+		private int password;
 		private String idNumber;
 		private String sex;
 		private String roomType;
@@ -154,15 +150,16 @@ public class Guest {
 			this.userName = userName;
 			return this;
 		}	
-		public Builder password(String password) {
+		public Builder password(int password) {
 			this.password = password;
 			return this;
 		}	
+	
 		public Builder idNumber(String idNumber) {
 			this.idNumber = idNumber;
 			return this;
 		}	
-		public Builder sex(String sex) {
+		public Builder gender(String sex) {
 			this.sex = sex;
 			return this;
 		}
@@ -216,6 +213,8 @@ public class Guest {
 			return this;
 		}
 		
+		
+		
 
 		/** @ Jasmina */
 
@@ -229,7 +228,7 @@ public class Guest {
 			if(userName==null){
 				throw new IllegalStateException( " No user name!");
 			}
-			if(password==null){
+			if(password<1000|| password>9999){
 				throw new IllegalStateException( " No password!");
 			}
 			if(idNumber==null){
@@ -265,7 +264,3 @@ public class Guest {
 	public void addBalance(double newBalance) {
 		this.balance+=newBalance;
 	}
-
-
-
-}
