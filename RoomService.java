@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+
 public class RoomService {
 
 	static Scanner input = new Scanner(System.in);
@@ -11,7 +12,7 @@ public class RoomService {
 	/**
 	 * @Jasmina method for displaying menu for user
 	 */
-	public void displayMenu(ArrayList<Room> allRooms, Guest guest)
+	public void displayMenu(ArrayList<Room> allRooms, Builder guest)
 			throws SQLException {
 
 		/** main menu for user */
@@ -51,7 +52,7 @@ public class RoomService {
 	 * @Jasmina 
 	 * method for user's check of current balance and all used services
 	 */
-	public void checkBalance(Guest guest) throws SQLException {
+	public void checkBalance(Builder guest) throws SQLException {
 
 		NumberFormat nf = NumberFormat.getCurrencyInstance();
 
@@ -89,7 +90,7 @@ public class RoomService {
 	 * @Jasmina 
 	 * method for ordering new services for specific number of days
 	 */
-	public void newServiceOrder(ArrayList<Room> allRooms, Guest guest)
+	public void newServiceOrder(ArrayList<Room> allRooms, Builder guest)
 			throws SQLException {
 
 		System.out.println("Please select which service you want to order: ");
@@ -110,27 +111,27 @@ public class RoomService {
 		 */
 		switch (user) {
 		case 1:
-			guest.setTimesSaunaUsed(guest.getTimesSaunaUsed() + numOfDays);
+			guest.timesSaunaUsed(guest.getTimesSaunaUsed() + numOfDays);
 			guest.addBalance(10*numOfDays);
 			System.out.println("Your reservation for sauna is complete!");
 			break;
 		case 2:
-			guest.setTimesPoolUsed(guest.getTimesPoolUsed() + numOfDays);
+			guest.timesPoolUsed(guest.getTimesPoolUsed() + numOfDays);
 			guest.addBalance(10*numOfDays);
 			System.out.println("Your reservation for pool is complete!");
 			break;
 		case 3:
-			guest.setTimesRestaurantUsed(guest.getTimesRestaurantUsed() + numOfDays);
+			guest.timesRestaurantUsed(guest.getTimesRestaurantUsed() + numOfDays);
 			guest.addBalance(20*numOfDays);
 			System.out.println("Your reservation for restaurant is complete!");
 			break;
 		case 4:
-			guest.setTimesGymUsed(guest.getTimesGymUsed() +numOfDays);
+			guest.timesGymUsed(guest.getTimesGymUsed() +numOfDays);
 			guest.addBalance(10*numOfDays);
 			System.out.println("Your reservation for gym is complete!");
 			break;
 		case 5:
-			guest.setTimesCinemaUsed(guest.getTimesCinemaUsed() + numOfDays);
+			guest.timesCinemaUsed(guest.getTimesCinemaUsed() + numOfDays);
 			guest.addBalance(10*numOfDays);
 			System.out.println("Your reservation for cinema is complete!");
 			break;
@@ -150,7 +151,7 @@ public class RoomService {
 	 * @author vojo
 	 * 
 	 */
-	public void newRoom(ArrayList<Room> allAvailableRooms, Guest guest)
+	public void newRoom(ArrayList<Room> allAvailableRooms, Builder guest)
 			throws SQLException {
 
 		printNewRoomMeni();
@@ -190,7 +191,7 @@ public class RoomService {
 	 * @throws SQLException
 	 * 
 	 */
-	private void newAparment(ArrayList<Room> allAvailableRooms, Guest guest)
+	private void newAparment(ArrayList<Room> allAvailableRooms, Builder guest)
 			throws SQLException {
 		if (allAvailableRooms.isEmpty())
 			System.out.println("Currently we do not have an empty APARTMENTS.");
@@ -221,7 +222,7 @@ public class RoomService {
 	 * @throws SQLException
 	 * 
 	 */
-	private void newSingleRoom(ArrayList<Room> allAvailableRooms, Guest guest)
+	private void newSingleRoom(ArrayList<Room> allAvailableRooms, Builder guest)
 			throws SQLException {
 
 		if (allAvailableRooms.isEmpty())
@@ -255,7 +256,7 @@ public class RoomService {
 	 * @author vojo
 	 * 
 	 */
-	private void newDoubleleRoom(ArrayList<Room> allAvailableRooms, Guest guest)
+	private void newDoubleleRoom(ArrayList<Room> allAvailableRooms, Builder guest)
 			throws SQLException {
 		if (allAvailableRooms.isEmpty())
 			System.out
@@ -360,7 +361,7 @@ public class RoomService {
 	}
 
 	/** @Vojo */
-	private void checkOut(Guest guest) {
+	private void checkOut(Builder guest) {
 		System.out.println("Your account is currently " + guest.getBalance()
 				+ " KM");
 		new Guest.Builder().isCheckedIn(false);
