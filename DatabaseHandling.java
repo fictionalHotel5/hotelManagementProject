@@ -139,4 +139,30 @@ public class DatabaseHandling {
 			statement.execute(query);
 		}
 	}
+		/**
+		 * @author Vojo
+		 * */
+		public static void loadAllAvailableRooms(
+				ArrayList<Room> availableRooms, java.sql.Statement statement)
+				throws SQLException {
+
+			// METHOD FOR COPYING DATA FROM ROOMS WHERE is_booked=1(available), AND
+			// PUT NUBER ROOM IN LIST
+
+			String query = "SELECT * " + "FROM hotel.rooms " + "WHERE is_booked=1;";
+			ResultSet result = ((java.sql.Statement) statement).executeQuery(query);
+
+			try {
+				while (result.next()) {
+
+					availableRooms.add(new Room(result.getInt("room_nmb"),
+							result.getBoolean("is_booked")));
+				}
+
+			} catch (Exception ex) {
+				System.out.println("Exception");
+			}
+
+	
+	}
 }
