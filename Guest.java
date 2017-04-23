@@ -1,6 +1,16 @@
 
+ 
+import java.sql.SQLException;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 import java.sql.Date;
-
+import java.sql.SQLException;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class Guest {
 
@@ -27,6 +37,7 @@ public class Guest {
 	private int timesCinemaUsed;
 	private boolean isCheckedIn;
 
+	
 	
 	public Guest(Builder builder) {
 		this.firstName = builder.firstName;
@@ -104,7 +115,6 @@ public class Guest {
 	public boolean isCheckedIn() {
 		return isCheckedIn;
 	}
-
 
 	public static class Builder {
 
@@ -240,7 +250,7 @@ public class Guest {
 		
 			if(timeCheckedIn==null){
 				throw new IllegalStateException( " No time checked in!");
-			}
+			} 
 			
 			
 			
@@ -248,4 +258,14 @@ public class Guest {
 		}
 
 	}
+
+	public void setNewRoom(int newRoom) {
+		this.roomNumber=newRoom;
+	}
+	public void addBalance(double newBalance) {
+		this.balance+=newBalance;
+	}
+
+
+
 }
