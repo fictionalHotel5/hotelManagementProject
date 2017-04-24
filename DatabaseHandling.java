@@ -74,8 +74,8 @@ public class DatabaseHandling {
 
 	}
 
-public void checkOut(String username, Guest guest) {
-//Method for moving guest from active to archive
+	public void checkOut(String username) {
+		// Method for moving guest from active to archive
 		try {
 			PreparedStatement statement = connectToDB().prepareStatement(
 					"REPLACE INTO archive"
@@ -329,25 +329,25 @@ public void checkOut(String username, Guest guest) {
 									+ username + "';");
 			ResultSet result = statement.executeQuery();
 			while (result.next()) {
-				 guest = new Guest.Builder()
-				.firstName(result.getString("first_name"))
-				.lastName(result.getString("last_name"))
-				.gender(result.getString("gender"))
-				.idNumber(result.getString("id_number"))
-				.age(result.getInt("age"))
-				.roomNumber(result.getInt("room_number"))
-				.roomType(result.getString("room_type"))
-				.userName(result.getString("user_name"))
-				.password(result.getInt("user_password"))
-				.balance(result.getDouble("balance"))
-				.numOfDays(result.getInt("number_of_days"))
-				.timesGymUsed(result.getInt("times_gym_used"))
-				.timesPoolUsed(result.getInt("times_pool_used"))
-				.timesRestaurantUsed(
-						result.getInt("times_restaurant_used"))
-				.timesSaunaUsed(result.getInt("times_sauna_used"))
-				.timesCinemaUsed(result.getInt("times_cinema_used"))
-				.isCheckedIn(result.getBoolean("guest_is_checked_in	"));
+				guest = new Guest.Builder()
+						.firstName(result.getString("first_name"))
+						.lastName(result.getString("last_name"))
+						.gender(result.getString("gender"))
+						.idNumber(result.getString("id_number"))
+						.age(result.getInt("age"))
+						.roomNumber(result.getInt("room_number"))
+						.roomType(result.getString("room_type"))
+						.userName(result.getString("user_name"))
+						.password(result.getInt("user_password"))
+						.balance(result.getDouble("balance"))
+						.numOfDays(result.getInt("number_of_days"))
+						.timesGymUsed(result.getInt("times_gym_used"))
+						.timesPoolUsed(result.getInt("times_pool_used"))
+						.timesRestaurantUsed(
+								result.getInt("times_restaurant_used"))
+						.timesSaunaUsed(result.getInt("times_sauna_used"))
+						.timesCinemaUsed(result.getInt("times_cinema_used"))
+						.isCheckedIn(result.getBoolean("guest_is_checked_in	"));
 
 			}
 		} catch (Exception e) {
@@ -449,7 +449,7 @@ public void checkOut(String username, Guest guest) {
 			ResultSet result = statement.executeQuery();
 			Guest guest = null;
 			while (result.next()) {
-			 new Guest.Builder().firstName(result.getString("first_name"))
+				new Guest.Builder().firstName(result.getString("first_name"))
 						.lastName(result.getString("last_name"))
 						.gender(result.getString("gender"))
 						.idNumber(result.getString("id_number"))
@@ -466,5 +466,60 @@ public void checkOut(String username, Guest guest) {
 		}
 		// return list
 		return list;
+	}
+
+	/**
+	 * @author Vojo
+	 * */
+	// metoda update podatke kod gosta prilikom promjene sobe
+	public void updateGuest(String username, String roomType, int roomNumber,
+			double balanc, int newNumberOfDays) {
+		try {
+			PreparedStatement statement1 = connectToDB().prepareStatement(
+					"UPDATE guests SET room_type = '" + roomType
+							+ "' WHERE user_name = '" + username + "';");
+
+			PreparedStatement statement2 = connectToDB().prepareStatement(
+					"UPDATE guests SET room_number = '" + roomNumber
+							+ "' WHERE user_name = '" + username + "';");
+
+			PreparedStatement statement3 = connectToDB().prepareStatement(
+					"UPDATE guests SET balance = '" + balanc
+							+ "' WHERE user_name = '" + username + "';");
+			PreparedStatement statement4 = connectToDB().prepareStatement(
+					"UPDATE guests SET number_of_days = '" + newNumberOfDays
+							+ "' WHERE user_name = '" + username + "';");
+
+			statement1.executeUpdate();
+			statement2.executeUpdate();
+			statement3.executeUpdate();
+			statement4.executeUpdate();
+		} catch (Exception e) {
+			System.err.println(e.toString());
+		}
+
+	}
+
+	/**
+	 * @author Vojo
+	 * */
+	// metoda update podatke kod Sobe, prilikom prelaska gosta iz jedne sobe u
+	// drugu
+	public void updateRoom(int oldRoomNumber, int newRoomNumber) {
+		try {
+			PreparedStatement statement1 = connectToDB().prepareStatement(
+					"UPDATE rooms " + "SET is_booked = '1' "
+							+ "WHERE room_nmb = '" + oldRoomNumber + "';");
+
+			PreparedStatement statement2 = connectToDB().prepareStatement(
+					"UPDATE rooms " + "SET is_booked = '0' "
+							+ "WHERE room_nmb  = '" + newRoomNumber + "';");
+
+			statement1.executeUpdate();
+			statement2.executeUpdate();
+
+		} catch (Exception e) {
+			System.err.println(e.toString());
+		}
 	}
 }
