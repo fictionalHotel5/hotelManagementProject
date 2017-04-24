@@ -27,7 +27,7 @@ public class RoomService {
 
 		switch (user) {
 		case 1:
-			checkBalance(guest);
+			checkBalance(allRooms,guest);
 			break;
 		case 2:
 			newServiceOrder(allRooms, guest);
@@ -52,7 +52,7 @@ public class RoomService {
 	 * @Jasmina 
 	 * method for user's check of current balance and all used services
 	 */
-	public void checkBalance(Builder guest) throws SQLException {
+	public void checkBalance(ArrayList<Room> allRooms,Builder guest) throws SQLException {
 
 		NumberFormat nf = NumberFormat.getCurrencyInstance();
 
@@ -81,8 +81,9 @@ public class RoomService {
 		if (guest.getTimesCinemaUsed() > 0) {
 			System.out.println("Cinema - 10 KM per day.");
 		}
+		/**back to main menu*/
 		System.out.println();
-		System.exit(0);
+		displayMenu(allRooms,guest);
 
 	}
 
@@ -101,9 +102,16 @@ public class RoomService {
 		System.out.println("5.Cinema");
 		System.out.println("6.Exit menu");
 
+		/**user's input for service*/
 		int user = unosInt(input);
-		System.out.println("Enter a number of day for which you want a service: ");
-		int numOfDays=unosInt(input);
+		
+		/**user's input for number of days*/
+        int numOfDays=0;	
+		while(numOfDays<1){
+			System.out.println("Enter a number of days for which you want a service: ");
+			 numOfDays=unosInt(input);
+		}
+		
 
 		/**
 		 * add user's input of number of days to the current value of the chosen service 
@@ -136,10 +144,12 @@ public class RoomService {
 			System.out.println("Your reservation for cinema is complete!");
 			break;
 		case 6:
+			/**back to main menu*/
 			System.out.println("Exiting the service menu.......");
 			displayMenu(allRooms,guest);
 			break;
 		default:
+			/**back to service menu*/
 			System.out.println("Something went wrong.");
 			newServiceOrder(allRooms, guest);
 		}
@@ -368,23 +378,23 @@ public class RoomService {
 	
 
 	/**
-	 * @Jasmina method for user's input
+	 * @Jasmina, method for user's input
 	 */
 	public static int unosInt(Scanner input) {
 
 		int user = 0;
-		boolean correct = true;
+		boolean incorrect = true;
 
 		do {
 			try {
 				user = input.nextInt();
-				correct = false;
+				incorrect = false;
 				input.nextLine();
 			} catch (InputMismatchException ex) {
 				System.out.println("Wrong input.Try again:");
 				input.nextLine();
 			}
-		} while (correct);
+		} while (incorrect);
 		return user;
 	}
 
