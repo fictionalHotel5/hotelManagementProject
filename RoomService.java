@@ -105,11 +105,17 @@ public class RoomService {
 		/**user's input for service*/
 		int user = unosInt(input);
 		
-		/**user's input for number of days*/
-        int numOfDays=0;	
+	
+		int numOfDays=0;
+		
+		/**if service is chosen ask user for number of days,number of days can't be less than 1*/	
+		if(user>0 && user<6) {
+			
 		while(numOfDays<1){
 			System.out.println("Enter a number of days for which you want a service: ");
+			/**user's input for number of days*/
 			 numOfDays=unosInt(input);
+		}
 		}
 		
 
